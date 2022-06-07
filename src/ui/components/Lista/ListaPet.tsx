@@ -5,14 +5,15 @@ import { DescricaoPetStyled, FotoStyled, InformacoesStyled, ItemListaStyled, Lis
 
 interface IListaPetProps {
     pets: Pet[];
+    onSelect: (pet: Pet) => void
 }
 
-export default function ListaPet(props: IListaPetProps) {
+export default function ListaPet({pets, onSelect}: IListaPetProps) {
     const maxSize = 200;
 
     return (
         <ListaStyled>
-            {props.pets.map(pet => (
+            {pets.map(pet => (
                 <ItemListaStyled key={pet.id}>
                     <FotoStyled src={pet.foto} alt={pet.nome} />
                     <InformacoesStyled>
@@ -20,7 +21,11 @@ export default function ListaPet(props: IListaPetProps) {
                         <DescricaoPetStyled>
                             {TextService.limitarTexto(pet.historia, maxSize)}
                         </DescricaoPetStyled>
-                        <Button fullWidth onClick={() => console.log(`${pet.nome}`)} variant={'contained'}>Adotar {pet.nome}</Button>
+                        <Button
+                            fullWidth
+                            onClick={() => onSelect(pet)} variant={'contained'}>
+                            Adotar {pet.nome}
+                        </Button>
                     </InformacoesStyled>
                 </ItemListaStyled>
             ))}
